@@ -33,7 +33,7 @@ class Solution:
         return False
 
     def contains_duplicate(self, nums: list[int]) -> bool:
-        seen =s set()
+        seen = set()
 
         for n in nums:
             if n in seen:
