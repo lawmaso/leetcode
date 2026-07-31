@@ -36,6 +36,24 @@ class Solution:
 
         return res
 
+    def product_except_self(self, nums: list[int]) -> list[int]:
+        n = len(nums)
+        res = [1] * n
+        
+        # add prefix products
+        p = 1
+        for i in range(n):
+            res[i] = p
+            p *= nums[i]
+
+        # add suffix products
+        p = 1
+        for i in range(n - 1, -1, -1):
+            res[i] *= p
+            p *= nums[i]
+
+        return res
+
 """
 at any point, we just want the left and right product
 from that point
@@ -48,6 +66,18 @@ right_prod: [24, 12, 4, 1 (base)]
 then result is just element-wise product of both
 
 prefixing and suffixing products
+
+T: O(n)
+S: O(n)
+
+---
+
+to improve the initial solution, we can get rid of one of prefix
+or suffix lists as we utilize just one to do the computation in-place
+
+can also get of result we're building this in-place
+
+we now do less passes in this solution
 
 T: O(n)
 S: O(n)
