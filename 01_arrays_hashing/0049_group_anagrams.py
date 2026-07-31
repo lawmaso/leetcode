@@ -59,6 +59,17 @@ class Solution:
 
         return list(groups.values())
 
+    def optimal_is_anagram(self, strs: list[str]) -> list[list[str]]:
+        groups = dict()
+
+        for s in strs:
+            pattern = [0] * 26
+            for char in s:
+                pattern[ord(char) - ord("a")] += 1
+
+            groups.setdefault(tuple(pattern), []).append(s)
+
+        return list(groups.values())
 
 """
 brute force: check all pairs
@@ -75,3 +86,17 @@ return list(map.values())
 T: O(n^2)
 S: O(n)
 """
+
+"""
+optimization: group by the character pattern count of each string
+
+avoids ever having to examine pairs, which lead to n^2 runtime
+
+the pattern is just the count of characters that compose the string
+- we first build this out as a list
+- then cast it to a tuple to make it hashable in our hash map
+
+T: O(n)
+S: O(n)
+"""
+
