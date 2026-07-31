@@ -21,6 +21,24 @@ class Solution:
 
         return res
 
+    def longest_consecutive(self, nums: list[int]) -> int:
+        n = len(nums)
+        unique = set(nums)  # unique nums
+
+        res = 0
+        for val in unique:
+            # val an entrypoint for a sequence; prev doesn't exist
+            if (val - 1) not in unique:
+                length = 1
+
+                # while next value in sequence exists; increase length
+                while (val + length) in unique:
+                    length += 1
+
+                res = max(res, length)
+
+        return res
+
 """
 initial approach: sort
 
@@ -44,4 +62,18 @@ length = 0
 
 ex: [1, 2, 3, 4]
 length=4
+"""
+
+"""
+optimization: count from entrypoints in a sequence
+
+no need to sort after hashing the list into a set of values
+to check if the subsequent value(s) exist, just check that
+(v + i) in set and increase length
+
+casting to set is also simpler as we avoid checking for duplicates
+explicitly
+
+T: O(n) [building set + main loop]
+S: O(n) [set]
 """
