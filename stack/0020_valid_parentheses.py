@@ -12,7 +12,7 @@ of the same type.
 """
 
 class Solution:
-    def is_valid(self, s: str) -> bool:
+    def brute_is_valid(self, s: str) -> bool:
         pairs = ["()", "[]", "{}"]
 
         while any(pair in s for pair in pairs):
@@ -20,6 +20,23 @@ class Solution:
                 s = s.replace(p, "")
 
         return s == ""
+
+    def is_valid(self, s: str) -> bool:
+        clopen = {"]": "[", ")": "(", "}": "{"}
+
+        stack = []
+        for char in s:
+            if char not in clopen:
+                stack.append(char)
+                continue
+
+            # stack empty or last char doesn't match
+            if not stack or stack.pop() != clopen[char]:
+                return False
+
+            # continue loop; no need to do anything after check
+
+        return not stack
 
 """
 brute: replace all adjacent pairs
@@ -46,3 +63,15 @@ T: O(n^2)
 S: O(n)
 """
 
+"""
+optimal: utilize stack
+
+if char is not an ending bracket, append to stack
+
+once we reach a closing bracket, we check the stack
+to ensure the previous char pushed matches for the pair
+to be valid
+
+T: O(n)
+S: O(n)
+"""
