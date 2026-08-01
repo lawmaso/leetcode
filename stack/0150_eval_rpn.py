@@ -14,7 +14,7 @@ The answer and all the intermediate calculations can be represented in a 32-bit 
 """
 
 class Solution:
-    def brute_eval_rpn(self, tokens: list[str]) -> int:
+    def brute_evalRPN(self, tokens: list[str]) -> int:
         while len(tokens) != 1:
             for i in range(len(tokens)):
                 if (op := tokens[i]) in "+-*/":
@@ -32,6 +32,25 @@ class Solution:
                     break
 
         return int(tokens[0])
+
+    def evalRPN(self, tokens: list[str]) -> int:
+        stack = []
+
+        for token in tokens:
+            if token not in "+*-/":
+                stack.append(int(token))
+                continue
+
+            op = token
+            b = stack.pop()
+            a = stack.pop()
+
+            if op == "+": stack.append(a + b)
+            if op == "*": stack.append(a * b)
+            if op == "-": stack.append(a - b)
+            if op == "/": stack.append(int(a / b))
+
+        return stack[0]
 
 
 """
@@ -66,5 +85,18 @@ return int(tokens[0])
 
 T: O(n^2)  [(~n/2) * n]
 S: O(n)   [new list rebuilt each pass, not mutated in place]
+"""
+
+"""
+optimal: utilize stack for efficient computation
+
+if char is not an operation: push
+if chhar is an operation:    pop and append result of computation
+
+stack should flatten to 1 element, to which we'll
+return stack[0]
+
+T: O(n)
+S: O(n)
 """
 
