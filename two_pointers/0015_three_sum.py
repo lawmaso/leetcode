@@ -27,6 +27,42 @@ class Solution:
 
         return res
 
+    def three_sum(self, nums: list[int]) -> list[list[int]]:
+        n = len(nums)
+        res = []
+
+        nums.sort()
+
+        for i, val in enumerate(nums):
+            # no way to form sum of 0
+            if val > 0:
+                break
+
+            # skip duplicates
+            if i > 0 and val == nums[i - 1]:
+                continue
+
+            l, r = i + 1, n - 1
+            while l < r:
+                triplet = [val, nums[l], nums[r]]
+                total = sum(triplet)
+
+                if total == 0:
+                    res.append(triplet)
+
+                    # we only need to update one of the pointers
+                    # to prevent duplicates
+                    l += 1
+                    while l < r and nums[l] == nums[l - 1]:
+                        l += 1
+
+                elif total < 0:  # increase sum
+                    l += 1
+                else:  # decrease sum
+                    r -= 1
+
+        return res
+
 """
 brute force: try all triplets
 
@@ -44,3 +80,14 @@ C(n, 3) := n!/3!(n - 3)!
     ~= n^3
 """
 
+"""
+optimized: sort first then two pointer
+
+first, we fix i at some point, then do a two pointer
+on j and k in the remaining indices
+
+j and k will be looking for the negation of i
+
+T: O(nlog(n) + n^2) = O(n^2)
+S: O(1)
+"""
