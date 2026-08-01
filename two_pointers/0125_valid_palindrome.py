@@ -27,6 +27,32 @@ class Solution:
 
         return True
 
+    def is_palindrome(self, s: str) -> bool:
+        n = len(s)
+        l, r = 0, n - 1
+
+        # check alpnumeric normalized pairs
+        while l < r:
+            # shift l to next alphanum (rightward)
+            while l < r and not s[l].isalnum():
+                l += 1
+            
+            # shift r to next alphanum (leftward)
+            while l < r and not s[r].isalnum():
+                r -= 1
+
+            # l and r pointers overlap
+            if l >= r:
+                break
+
+            if s[l].lower() != s[r].lower():
+                return False
+
+            l += 1
+            r -= 1
+
+        return True
+
 """
 brute force: build out list of alphanumeric characters
 
@@ -41,4 +67,14 @@ lst = [r,a,c,e,a,c,a,r]
 
 T: O(n)
 S: O(n)
+"""
+
+
+"""
+optimal: remove additional space via in-place traversal
+
+still two pointers
+
+T: O(n)
+S: O(1)
 """
