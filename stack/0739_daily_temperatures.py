@@ -37,6 +37,23 @@ class Solution:
 
         return res
 
+    def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
+        n = len(temperatures)
+
+        stack = []  # (index, temp)
+        res = [0] * n
+
+        for curr_index, temp in enumerate(temperatures):
+            # update previous temps if curr temp is warmer
+            while stack and stack[-1][-1] < temp:
+                prev_index, _ = stack.pop()
+                res[prev_index] = curr_index - prev_index
+
+            # add this temp to stack
+            stack.append((curr_index, temp))
+
+        return res
+
 """
 brute force: check for larger from each
 
@@ -46,3 +63,20 @@ T: O(n^2)
 S: O(n)   [output]
 """
 
+"""
+optimal: utilize stack
+
+if prev stack push has a lower temp than the current,
+we can update the days until warmer length for those in the stack
+that have a lower temperature
+
+
+temperatures with no greater temp in the future will remain
+in the stack
+
+to account for indexes for the computation, augment the stack
+entries as a tuple (index, temp)
+
+T: O(n)
+S: O(n)  [strictly decreasing; worst-case]
+"""
