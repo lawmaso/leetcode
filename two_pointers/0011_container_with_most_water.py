@@ -36,6 +36,25 @@ class Solution:
 
         return res
 
+    def maxArea(self, height: list[int]) -> int:
+        n = len(height)
+        res = 0
+
+        # start at boundaries
+        l, r = 0, n - 1
+        while l < r:
+            h = min(height[l], height[r])
+            res = max(res, h * (r - l))
+
+            # expand l inwards
+            if height[l] <= height[r]:
+                l += 1
+            # expand r inwards
+            else:
+                r -= 1
+
+        return res
+
 """
 brute force: for each left, check all possible areas
 
@@ -45,6 +64,21 @@ for all l:
     res = arg_max [min(heights[l], heights[r]) * (r - l)]
 
 T: O(n^2)
+S: O(1)
+"""
+
+"""
+optimization: greedy expansion using two pointers
+
+left and right
+
+expand inwards -> width decreases, so attempt to increase height
+
+for l or r, choose to update the minimum one
+    if l and r have the same height, choose either
+        choose left for determinism/standard
+
+T: O(n)
 S: O(1)
 """
 
