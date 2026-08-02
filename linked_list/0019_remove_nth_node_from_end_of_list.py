@@ -27,6 +27,25 @@ class Solution:
 
         return nodes[0].next
 
+    def removeNthFromEnd(self, head: ListNode | None, n: int) -> ListNode | None:
+        sentinel = prev = ListNode(next=head)
+        curr = head
+
+        # form n nodes between prev and curr
+        for _ in range(n):
+            curr = curr.next
+
+        # shift curr out of bounds
+        while curr:
+            curr = curr.next
+            prev = prev.next
+
+        # prev is now before the node to remove
+        prev.next = prev.next.next
+
+        # return new list
+        return sentinel.next
+
 """
 brute force: convert nodes to list form, and
 rechain at the pivot
@@ -69,5 +88,44 @@ returns x.next
 
 T: O(n)
 S: O(n)
+"""
+
+"""
+optimal:
+
+ex: [1,2,3,4], n=2
+
+x -> 1 -> 2 -> 3 -> 4
+p              c
+     p              c
+          p            c
+
+p=prev is just before the node to remove
+c=curr is shifted out of bounds
+
+this works since prev and curr always have n nodes
+between them (invariant)
+
+edge case: [1], n=1
+
+x -> 1
+p    c
+p       c
+
+p.next = p.next.next
+
+edge case: [1, 2, 3], n=3
+
+x -> 1 -> 2 -> 3
+p    c
+p                 c
+
+p.next = p.next.next
+
+p will always have a non-null .next, so
+removing it's next is straightforward
+
+T: O(n)
+S: O(1)
 """
 
