@@ -24,6 +24,16 @@ class Solution:
 
         return reverse.next
 
+    def reverseList(self, head: ListNode | None) -> ListNode | None:
+        prev = None  # initial previous
+
+        while head:
+            temp = head.next
+            head.next = prev
+            prev = head
+            head = temp
+
+        return prev  # prev is now the head
 
 """
 brute force: append all values to a list, then
@@ -43,5 +53,38 @@ return reverse.next = 2->1->None
 
 T: O(n)
 S: O(n)
+"""
+
+"""
+optimal: reverse in-place
+
+prev = None
+
+temp = curr.next
+curr.next = prev
+prev = curr
+curr = temp
+
+continue this loop while curr isn't null
+
+ex: [1,2]
+
+None <- 1 <- 2  []
+             ^prev
+                ^curr is now null
+
+return prev since it will be the new head
++
+
+ex: []
+return prev=None
++
+
+ex: [1]
+returns node 1
++
+
+T: O(n)
+S: O(1)
 """
 
