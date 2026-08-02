@@ -21,6 +21,18 @@ class Solution:
 
         return False
 
+    def hasCycle(self, head: ListNode | None) -> bool:
+        slow = fast = head
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return True
+
+        return False
+
 """
 brute force: use set to track if a node was seen already
 
@@ -32,5 +44,20 @@ assumes we can hash list nodes
 
 T: O(n)
 S: O(n)
+"""
+
+"""
+optimal: utilize slow and fast pointers
+
+since fast grows at twice the rate of slow, if a cycle exists,
+then fast will reach slow eventually
+
+continue while fast and fast.next are non-null
+update both accordingly:
+    - slow = slow.next
+    - fast = fast.next.next
+
+T: O(n)
+S: O(1)  [just pointers]
 """
 
