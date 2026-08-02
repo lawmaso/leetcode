@@ -51,6 +51,27 @@ class Solution:
 
         return sentinel.next
 
+    def addTwoNumbers(self, l1: ListNode | None, l2: ListNode | None) -> ListNode | None:
+        sentinel = temp = ListNode()
+        carry = 0
+
+        # loop while we need to add a digit
+        while l1 or l2 or carry:
+            v1 = l1.val if l1 else 0
+            v2 = l2.val if l2 else 0
+            
+            total = v1 + v2 + carry
+
+            temp.next = ListNode(val=(total % 10))  # get last digit
+            carry = total // 10                     # carry over (if any)
+
+            temp = temp.next
+            if l1: l1 = l1.next
+            if l2: l2 = l2.next
+
+        # return newly formed list
+        return sentinel.next
+
 """
 l1 = [2,4,3], l2 = [5,6,4]
 
@@ -64,6 +85,13 @@ brute: actual sum -> list
 t.next = ListNode(val=(n % 10))
 t = t.next
 n //= 10
+
+T: O(n1 + n2)
+S: O(n1 + n2)
+"""
+
+"""
+optimal: one-pass across both
 
 T: O(n1 + n2)
 S: O(n1 + n2)
