@@ -54,6 +54,28 @@ class Solution:
 
         return res
 
+    def minEatingSpeed(self, piles: list[int], h: int) -> int:
+        n = len(piles)
+        mx = res = max(piles)
+
+        lo, hi = 1, mx
+
+        while lo <= hi:
+            bph = lo + (hi-lo) // 2
+            
+            # compute time taken to eat all piles at speed bph
+            time = 0
+            for b in piles:
+                time += math.ceil(b / bph)
+
+            if time <= h:  # eating too fast; search slower bph speeds
+                hi = bph - 1
+                res = min(res, bph)        
+            else:  # eating too slow; search larger bph speeds
+                lo = bph + 1
+        
+        return res
+
 """
 brute force: try all eating speeds
 
@@ -66,6 +88,24 @@ all the bananas
 res = arg_min [...]
 
 T: O(max(piles) * n)
+S: O(1)
+"""
+
+"""
+optimal: binary search on the eating speeds bph
+
+lo, hi = 1, max(piles)
+
+compute mid eating speed
+determine time taken to eat all piles at this speed
+
+if time <= h:  # eating too fast; decrease speed
+    right = speed - 1
+    res = min(res, speed)
+if time > h:   # eating too slow; increase speed
+    left = speed + 1
+
+T: O(log[max(piles)] * n)
 S: O(1)
 """
 
