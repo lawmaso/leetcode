@@ -38,6 +38,30 @@ class Solution:
             nodes[i - 1].next = nodes[i]
 
         return nodes[0]
+    
+    def mergeTwoLists(self, list1: ListNode | None, list2: ListNode | None) -> ListNode | None:
+        if not list1: return list2
+        if not list2: return list1
+
+        sentinel = temp = ListNode()  # sentinel head
+        l1, l2 = list1, list2
+
+        while l1 and l2:
+            if l1.val <= l2.val:
+                temp.next = l1
+                l1 = l1.next
+            else:
+                temp.next = l2
+                l2 = l2.next
+
+            # update temp to be last added node
+            temp = temp.next
+        
+        # append remaining of non-exhausted list
+        temp.next = l1 or l2
+
+        # return newly formed list
+        return sentinel.next
 
 """
 brute force: add all nodes to a list in sorted order,
@@ -46,5 +70,14 @@ then splice them together by pointing them in sequential order
 
 T: O(n)
 S: O(n)
+"""
+
+"""
+optimal: in-place splicing
+
+build out new list by comparing values at each point
+
+T: O(n)
+S: O(1)
 """
 
