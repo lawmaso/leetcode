@@ -15,7 +15,7 @@ class Solution:
         if not root:
             return None
 
-        # propogate to children nodes
+        # propagate to children nodes
         left = self.invertTree(root.left)
         right = self.invertTree(root.right)
 
