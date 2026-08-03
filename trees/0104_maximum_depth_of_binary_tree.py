@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Given the root of a binary tree, return its maximum
 depth.
@@ -20,7 +22,6 @@ T: O(n) [visit each node]
 S: O(h) [recursion stack; between O(log(n)) and O(n)]
 """
 
-from __future__ import annotations
 class TreeNode:
     val: int
     left: TreeNode | None
@@ -32,7 +33,7 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def maxDepth(self, root: TreeNode | None) -> int:
+    def recursive_maxDepth(self, root: TreeNode | None) -> int:
         if not root:
             return 0
 
@@ -40,4 +41,40 @@ class Solution:
             self.maxDepth(root.left),
             self.maxDepth(root.right)
         )
+
+    def iterative_maxDepth(self, root: TreeNode | None) -> int:
+        from collections import deque
+
+        if not root:
+            return 0
+
+        self.res = 0  # store in the class
+        
+        q = deque([(root, 1)])
+        while q:
+            node, depth = q.popleft()
+
+            # update best depth (if it applies)
+            self.res = max(self.res, depth)
+
+            # only append valid paths
+            if node.left:  q.append((node.left, depth + 1))
+            if node.right: q.append((node.right, depth + 1))
+
+        return self.res
+
+
+"""
+iterative bfs
+
+depth = 0
+
+explore paths to leafs, keeping track
+of current depth
+
+maximize the depth to get the result
+
+T: O(n)
+S: O(n)
+"""
 
