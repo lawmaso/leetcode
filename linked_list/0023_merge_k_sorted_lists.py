@@ -33,7 +33,7 @@ class Solution:
 
         return sentinel.next
 
-    def mergeKLists(self, lists: list[ListNode | None]) -> ListNode | None:
+    def brute_mergeKLists(self, lists: list[ListNode | None]) -> ListNode | None:
         if not lists:
             return None
 
@@ -42,6 +42,26 @@ class Solution:
             base = self._merge(base, lists[i])
 
         return base
+    
+    def mergeKLists(self, lists: list[ListNode | None]) -> ListNode | None:
+        if not lists:
+            return None
+
+        merges = lists
+        while len(merges) >= 2:
+            next_merges = []  # next lists to merge
+
+            # pairwise merges
+            for i in range(0, len(merges), 2):
+                l = merges[i]
+                r = merges[i + 1] if i + 1 < len(merges) else None
+
+                next_merges.append(self._merge(l, r))
+
+            merges = next_merges  # update our merges
+
+        # all lists will be merged into a singular list at index 0
+        return merges[0]
 
 """
 brute force: merge 1-by 1
@@ -75,5 +95,31 @@ merge the linked lists
 
 T: O(n * k^2)
 S: O(1) [in-place merges]
+"""
+
+"""
+optimal solution: divide and conquer
+
+at each iteration, half the number of lists to merge
+
+i and i + 1
+
+say we have k lists to merge
+divide by 2 after first set of merges
+...
+
+-> log2(k) iterations
+
+1st iter: (k/2) merges * (2n) cost per merge = nk
+2nd iter: (k/4) merges * (4n) cost per merge = nk
+...
+log2(k) iter: [k/2^(log2(k))] * [2^(log2(k)) * n]
+    = [k/k] * nk
+    = nk
+
+so log2(k) iterations each with cost nk
+
+T: O(nk * log(k))
+S: O(k/2) -> O(k)  [next_merges only every has <= k/2 items]
 """
 
