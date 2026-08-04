@@ -41,3 +41,38 @@ class Solution:
             self.isSameTree(p.right, q.right)
         ])
 
+    def isSameTree(self, p: TreeNode | None, q: TreeNode | None) -> bool:
+        """
+        iterative bfs
+
+        queue with tuples of (left, right), initially append
+        (p, q) to the queue
+
+        at each iteration, check that left and right are valid and 
+        their values match
+
+        any mismatch: not the same tree
+
+        after bfs finishes, result is always true since checks
+        passes
+        """
+
+        from collections import deque
+
+        q = deque([(p, q)])
+        while q:
+            l, r = q.popleft()
+
+            # continue bfs if nodes are null
+            if not l and not r:
+                continue
+
+            # structural/value mismatch
+            if not l or not r or l.val != r.val:
+                return False
+
+            q.append((l.left, r.left))
+            q.append((l.right, r.right))
+
+        return True
+
