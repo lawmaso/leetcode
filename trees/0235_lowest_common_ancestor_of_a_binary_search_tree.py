@@ -68,6 +68,40 @@ class Solution:
 
         return None
 
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        """
+        bottom-up dfs
+
+        look for pivot node using bst property
+
+        lca will be where the nodes diverge into
+        left and right subtrees
+
+        T: O(h)
+        S: O(1)
+        """
+        
+        vals = [p.val, q.val]
+        mn, mx = min(vals), max(vals)
+
+        curr = root
+        while curr:
+            # both in the right subtree
+            if mn > curr.val:
+                curr = curr.right
+                continue
+            # both in the left subtree
+            elif mx < curr.val:
+                curr = curr.left
+                continue
+
+            # mn <= curr.val and mx >= curr.val
+            # i.e., curr is the pivot where they split
+            return curr
+
+        # no lca exists
+        return None
+
 """
 ex1:
 
