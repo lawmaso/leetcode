@@ -70,7 +70,7 @@ class Solution:
 
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         """
-        bottom-up dfs
+        iterative search for the pivot node
 
         look for pivot node using bst property
 
@@ -97,6 +97,7 @@ class Solution:
 
             # mn <= curr.val and mx >= curr.val
             # i.e., curr is the pivot where they split
+            # i.e., the lowest common ancestor of p and q
             return curr
 
         # no lca exists
@@ -114,4 +115,3 @@ Explanation: The LCA of nodes 2 and 8 is 6.
         0     4    7    9
              3 5
 """
-
