@@ -85,3 +85,33 @@ class Solution:
         root.right = self.buildTree(preorder[mid + 1:], inorder[mid + 1:])
 
         return root
+
+    def buildTree(self, preorder: list[int], inorder: list[int]) -> TreeNode | None:
+        """
+        recursive dfs with hash map of values
+        to indices for faster index lookups in
+        inorder
+
+        T: O(n)
+        S: O(n)
+        """
+
+        n = len(preorder)
+        index = {v: i for i, v in enumerate(inorder)}  # index[v] = index of v in inorder
+
+        self.pre = 0  # start at root node
+        def dfs(l: int, r: int) -> TreeNode | None:
+            if l > r:
+                return None
+
+            root_val = preorder[self.pre]
+            mid = index[root_val]
+            self.pre += 1
+
+            root = TreeNode(val=root_val)
+            root.left = dfs(l, mid - 1)
+            root.right = dfs(mid + 1, r)
+
+            return root
+
+        return dfs(0, n - 1)
