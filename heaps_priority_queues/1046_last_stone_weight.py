@@ -37,3 +37,33 @@ class Solution:
             stones.append(y - x)  # new stone after smash
 
         return stones[0] if stones else 0
+
+    def lastStoneWeight(self, stones: list[int]) -> int:
+        """
+        Optimal approach: max heap
+
+        T: O(n + n * log(n)) = O(nlog(n))
+            O(n): building heap
+            O(nlog(n)): ~n pops/pushes; each cost log(n)
+        S: O(n)
+        """
+        import heapq
+
+        # negate stones to simulate max heap
+        heap = [-stone for stone in stones]
+        heapq.heapify(heap)
+
+        # simulate game
+        while len(heap) >= 2:
+            y, x = heapq.heappop(heap), heapq.heappop(heap)
+
+            if x == y:
+                continue
+
+            # append new stone
+            # new weight is (-y) - (-x) == x - y
+            # but we need to negate again: -(x - y) == y - x
+            heapq.heappush(heap, y - x)
+
+        # unnegate the last stone (if exists)
+        return -heap[0] if heap else 0
