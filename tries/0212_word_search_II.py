@@ -10,6 +10,38 @@ vertically neighboring. The same letter cell may not be
 used more than once in a word
 """
 
+class TrieNode:
+    children: dict[str, TrieNode]
+    is_word: bool
+    word: str
+
+    def __init__(self):
+        self.children = dict()
+        self.is_word = False
+        self.word = ""
+
+    def insert(self, s: str):
+        curr = self
+
+        for char in s:
+            if char not in curr.children:
+                curr.children[char] = TrieNode()
+            curr = curr.children[char]
+
+        curr.is_word = True
+        curr.word = s
+
+class Trie:
+    root: TrieNode
+
+    def __init__(self, words: list[str] = list()):
+        self.root = TrieNode()
+        for word in words:
+            self.insert(word)
+
+    def insert(self, s: str):
+        self.root.insert(s)
+
 class Solution:
     def findWords(self, board: list[list[str]], words: list[str]) -> list[str]:
         """
@@ -62,6 +94,65 @@ class Solution:
                         res.add(word)
 
         return list(res)
+
+    def findWords(self, board: list[list[str]], words: list[str]) -> list[str]:
+        """
+        Optimal approach: trie + DFS
+
+        T: O(mn * 3^L + W)
+            O(mn * 3^L): grid search + dfs
+            O(W): building trie
+        S: O(W + L)
+            O(W): trie nodes
+            O(L): recursion stack
+
+        W: sum(len(words))
+        L: max(len(w) for w in words)
+        """
+        m, n = len(board), len(board[0])
+        dirs = [(-1,0), (0,1), (1,0), (0,-1)]
+        trie = Trie(words)
+
+        res = []
+
+        def dfs(r: int, c: int, parent: TrieNode, seen: set[tuple[int, int]]):
+            char = board[r][c]
+            if char not in parent.children:
+                return
+
+            curr = parent.children[char]
+
+            # base case: found a word
+            if curr.is_word:
+                res.append(curr.word)
+
+                # instead of using an explicit set, once this word is found,
+                # just mark the node flag as not a word; so this base case is
+                # never reached for this word again
+                curr.is_word = False
+                
+                # NOTE: don't return early, this could be a prefix
+                # of another word (e.g., oat and oatmeal)
+                # return
+
+            for dr, dc in dirs:
+                nr, nc = r + dr, c + dc
+
+                # check in bounds and not already seen
+                if (
+                    0 <= nr < m and
+                    0 <= nc < n and
+                    (nr, nc) not in seen
+                ):
+                    seen.add((nr, nc))
+                    dfs(nr, nc, curr, seen)
+                    seen.remove((nr, nc))
+
+        for r in range(m):
+            for c in range(n):
+                dfs(r, c, trie.root, {(r, c)})
+
+        return res
 
 if __name__ == "__main__":
     soln = Solution()
