@@ -22,9 +22,29 @@ Follow up: Your algorithm's time complexity must be better
 than O(n log n), where n is the array's size.
 """
 
-
 class Solution:
-    def initial_top_k_frequent(self, nums: list[int], k: int) -> list[int]:
+    def topKFrequent(self, nums: list[int], k: int) -> list[int]:
+        """
+        Initial approach: heap
+
+        ex1:
+        1: 3+
+        2: 2+
+        3: 1-
+
+        counts = [3, 2, 1] -> counts[:k]
+
+        Max count of a single value can be the length of the array,
+        which is just len(nums) = n
+
+        Build out max heap with entries (count, value), then pop k times
+
+        T: O(n + klog(n))
+            build heap: n
+            pops: klog(n)
+        S: O(n)
+        """
+
         import heapq
 
         n = len(nums)
@@ -48,7 +68,24 @@ class Solution:
             res.append(heapq.heappop(heap)[1])
         return res
 
-    def optimal_top_k_frequent(self, nums: list[int], k: int) -> list[int]:
+    def topKFrequent(self, nums: list[int], k: int) -> list[int]:
+        """
+        Optimal: counting sort
+
+        Notice that the max count of any element can be
+        at most n (the length of the list)
+
+        Utilize frequency list to count; allow indexing from 0 (trivial)
+        to the max, which is len(nums)
+
+        Length of freq list is then: len(nums) - 0 + 1 = len(nums) + 1
+
+        After building the list out, we can build out the result from
+        the highest frequencies to lowest, until we hit the threshold k
+
+        T: O(n)
+        S: O(n)
+        """
         n = len(nums)
 
         freq = [[] for _ in range(n + 1)]
@@ -70,41 +107,3 @@ class Solution:
 
         # should never reach here if k is bounded properly
         return res
-"""
-initial approach: heap
-
-ex1:
-1: 3+
-2: 2+
-3: 1-
-
-counts = [3, 2, 1] -> counts[:k]
-
-max count of a single value can be the length of the array,
-which is just len(nums) = n
-
-build out max heap with entries (count, value), then pop k times
-
-T: O(n + klog(n))
-    build heap: n
-    pops: klog(n)
-S: O(n)
-"""
-
-"""
-optimal approach: counting sort
-
-notice that the max count of any element can be
-at most n (the length of the list)
-
-utilize frequency list to count; allow indexing from 0 (trivial)
-to the max, which is len(nums)
-
-length of freq list is then: len(nums) - 0 + 1 = len(nums) + 1
-
-after building the list out, we can build out the result from
-the highest frequencies to lowest, until we hit the threshold k
-
-T: O(n)
-S: O(n)
-"""

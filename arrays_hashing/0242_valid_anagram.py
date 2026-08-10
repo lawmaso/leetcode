@@ -15,7 +15,26 @@ Follow up: What if the inputs contain Unicode characters? How would you adapt yo
 """
 
 class Solution:
-    def initial_is_anagram(self, s: str, t: str) -> bool:
+    def isAnagram(self, s: str, t: str) -> bool:
+        """
+        Optimal: flatten to counts then compare
+
+        Assumption: all characters are lowercase english letters
+
+        Store each string char count in a list[int] where len = 26
+
+        Then count each by normalizing the ascii code to its appropriate index
+
+        a -> 0
+        b -> 1
+        ...
+        char -> ord(char) - ord("a")
+
+        then just check that each list is equal
+
+        T: O(n)
+        S: O(n)
+        """
         if len(s) != len(t):
             return False
 
@@ -30,7 +49,24 @@ class Solution:
 
         return s_count == t_count
 
-    def follow_up_is_anagram(self, s: str, t: str) -> bool:
+    def isAnagram(self, s: str, t: str) -> bool:
+        """
+        Follow-up: not just lowercase english
+
+        To adapt the current solution, we'd need a way to generalize to
+        be able to store the count for any character. can't just use a subset
+        of the ascii codes in a list since they can be largely disconnected
+        with no way to normalize them to the same baseline.
+
+        Use a hash map s.t. keys are the character and values are the counts
+        in the string
+
+        this way we don't rely on explcit indexing, but hashing of the specific char
+        to efficiently update+get the count
+
+        T: O(n)
+        S: O(n)
+        """
         if len(s) != len(t):
             return False
 
@@ -51,24 +87,6 @@ class Solution:
         return s_count == t_count
 
 """
-approach: 
-
-assumption: all characters are lowercase english letters
-
-store each string char count in a list[int] where len = 26
-
-then count each by normalizing the ascii code to its appropriate index
-
-a -> 0
-b -> 1
-...
-char -> ord(char) - ord("a")
-
-then just check that each list is equal
-
-T: O(n)
-S: O(n)
-
 dry-run:
 
 ex:
@@ -89,24 +107,3 @@ t_count = [0, 1]
 
 s_count != t_count; test passes
 """
-
-
-"""
-follow-up: not just lowercase english
-
-to adapt the current solution, we'd need a way to generalize to
-be able to store the count for any character. can't just use a subset
-of the ascii codes in a list since they can be largely disconnected
-with no way to normalize them to the same baseline.
-
-solution: use a hash map s.t. keys are the character and values are the counts
-in the string
-
-this way we don't rely on explcit indexing, but hashing of the specific char
-to efficiently update+get the count
-
-
-T: O(n)
-S: O(n)
-"""
-

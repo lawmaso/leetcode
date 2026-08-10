@@ -22,7 +22,13 @@ Output: true
 
 
 class Solution:
-    def brute_contains_duplicate(self, nums: list[int]) -> bool:
+    def containsDuplicate(self, nums: list[int]) -> bool:
+        """
+        Brute force: check every pair of elements of the list
+
+        T: O(n^2)
+        S: O(1)
+        """
         n = len(nums)
 
         for i in range(n):
@@ -32,7 +38,13 @@ class Solution:
 
         return False
 
-    def contains_duplicate(self, nums: list[int]) -> bool:
+    def containsDuplicate(self, nums: list[int]) -> bool:
+        """
+        Optimal: utilize hashset to track seen elements
+
+        T: O(n)
+        S: O(n)
+        """
         seen = set()
 
         for n in nums:
@@ -44,18 +56,7 @@ class Solution:
 
 
 """
-brute force: check every pair of elements of the list
-
-T: O(n^2)
-S: O(1)
-
-
-optimal: utilize hashset to track seen elements
-
-T: O(n)
-S: O(n)
-
-dry-runs:
+Dry runs:
 
 1, 2, 3, 1
 seen = {}

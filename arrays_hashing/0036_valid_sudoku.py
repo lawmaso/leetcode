@@ -1,5 +1,11 @@
 class Solution:
-    def brute_is_valid_sudoku(self, board: list[list[str]]) -> bool:
+    def isValidSudoku(self, board: list[list[str]]) -> bool:
+        """
+        brute force: check all rows, then cols, then subgrids
+
+        T: O(n^2) [triple pass]
+        S: O(n)   [one set per pass]
+        """
         n = len(board)
 
         # check rows
@@ -45,7 +51,28 @@ class Solution:
         return True
 
 
-    def is_valid_sudoku(self, board: list[list[str]]) -> bool:
+    def isValidSudoku(self, board: list[list[str]]) -> bool:
+        """
+        optimization: one-pass
+
+        use sets for each row, column, and sub-grid to determine
+        if a value 1-9 has been used already
+
+        whenever we have a conflict (i.e., constraint violation), we
+        can conclude the board is automatically invalid
+
+        if all checks pass, then board is valid
+
+        approach: check each position on the grid and confirm that these pass:
+            - row doesn't have this value
+            - col doesn't have this value
+            - subgrid doesn't have this value
+
+        T: O(n^2)
+        S: O(n^2)
+            - worst-case: grid is filled; each dict has n keys, each with
+            a set filled with n values; n*n*3 ~= n^2
+        """
         n = len(board)
 
         # dicts where r/c/sg: set[int]
@@ -80,34 +107,3 @@ class Solution:
                 subgrids[subgrid].add(val)
 
         return True
-
-
-"""
-brute force: check all rows, then cols, then subgrids
-
-T: O(n^2) [triple pass]
-S: O(n)   [one set per pass]
-"""
-
-
-"""
-optimization: one-pass
-
-use sets for each row, column, and sub-grid to determine
-if a value 1-9 has been used already
-
-whenever we have a conflict (i.e., constraint violation), we
-can conclude the board is automatically invalid
-
-if all checks pass, then board is valid
-
-approach: check each position on the grid and confirm that these pass:
-    - row doesn't have this value
-    - col doesn't have this value
-    - subgrid doesn't have this value
-
-T: O(n^2)
-S: O(n^2)
-    - worst-case: grid is filled; each dict has n keys, each with
-      a set filled with n values; n*n*3 ~= n^2
-"""
