@@ -21,8 +21,29 @@ minStack.top();    // return 0
 minStack.getMin(); // return -2
 """
 
-
 class MinStack:
+    """
+    Approach: two separate stacks
+
+    One for global minima and the other for the actual
+    stack that is ordered
+
+    ex1:
+        min  = [-2, -2, -3]
+        main = [-2, 0, -3]
+
+    .getMin() -> -3
+    .pop()    -> remove -3 from main and -3 from min
+
+        min  = [-2, -2]
+        main = [-2, 0]
+
+    .top()    -> main stack's top is 0
+    .getMin() -> -1 (min stack's top)
+
+    T: O(1) per operation [list push/pops are O(1) amortized]
+    S: O(pushes - pops) ~= O(n)
+    """
     min_: list[int]
     main: list[int]
 
@@ -51,27 +72,3 @@ class MinStack:
 
     def getMin(self) -> int:
         return self.min_[-1]
-
-"""
-approach: two separate stacks
-
-one for global minima and the other for the actual
-stack that is ordered
-
-ex1:
-    min  = [-2, -2, -3]
-    main = [-2, 0, -3]
-
-.getMin() -> -3
-.pop()    -> remove -3 from main and -3 from min
-
-    min  = [-2, -2]
-    main = [-2, 0]
-
-.top()    -> main stack's top is 0
-.getMin() -> -1 (min stack's top)
-
-T: O(1) per operation [list push/pops are O(1) amortized]
-S: O(pushes - pops) ~= O(n)
-"""
-

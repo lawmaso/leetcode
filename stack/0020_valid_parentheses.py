@@ -12,7 +12,30 @@ of the same type.
 """
 
 class Solution:
-    def brute_is_valid(self, s: str) -> bool:
+    def isValid(self, s: str) -> bool:
+        """
+        Brute force: replace all adjacent pairs
+
+        String will flatten to the empty string if valid
+
+        Worst-case, fully nested
+
+        "[({})]", length = 6 = n
+
+        pop {}
+        pop ()
+        pop []
+
+        3 pops == (n / 2) pops
+        so in worst-case; there are n/2 pops ~= n pops
+            each with approximate cost of n
+        ~n*n
+
+        Space is O(n) since each replace allocates a new string
+
+        T: O(n^2)
+        S: O(n)
+        """
         pairs = ["()", "[]", "{}"]
 
         while any(pair in s for pair in pairs):
@@ -21,7 +44,19 @@ class Solution:
 
         return s == ""
 
-    def is_valid(self, s: str) -> bool:
+    def isValid(self, s: str) -> bool:
+        """
+        Optimal: stack
+
+        If char is not an ending bracket, append to stack
+
+        Once we reach a closing bracket, we check the stack
+        to ensure the previous char pushed matches for the pair
+        to be valid
+
+        T: O(n)
+        S: O(n)
+        """
         clopen = {"]": "[", ")": "(", "}": "{"}
 
         stack = []
@@ -37,41 +72,3 @@ class Solution:
             # continue loop; no need to do anything after check
 
         return not stack
-
-"""
-brute: replace all adjacent pairs
-
-string will flatten to the empty string if valid
-
-worst-case, fully nested
-
-
-"[({})]", length = 6 = n
-
-pop {}
-pop ()
-pop []
-
-3 pops == (n / 2) pops
-so in worst-case; there are n/2 pops ~= n pops
-    each with approximate cost of n
-~n*n
-
-space is O(n) since each replace allocates a new string
-
-T: O(n^2)
-S: O(n)
-"""
-
-"""
-optimal: utilize stack
-
-if char is not an ending bracket, append to stack
-
-once we reach a closing bracket, we check the stack
-to ensure the previous char pushed matches for the pair
-to be valid
-
-T: O(n)
-S: O(n)
-"""

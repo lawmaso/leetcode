@@ -12,7 +12,34 @@ The largest rectangle is shown in the red area, which has an area = 10 units.
 """
 
 class Solution:
-    def brute_largestRectangleArea(self, heights: list[int]) -> int:
+    def largestRectangleArea(self, heights: list[int]) -> int:
+        """
+        Brute force: just try every possible histogram
+
+        At each point, expand as far left and right to get max
+        (greedy expansion)
+
+        ex1:
+
+        X
+        XX
+        XX
+        XX X
+        X XXXX
+        XXXXXX
+
+        Expand only while >= heights are in the direction
+
+        at i=0: l=0, r=0, area = h * (r - l + 1) = 2
+        at i=1: l=0, r=5, area = 1 * (6) = 6
+        at i=2: l=2, r=3, area = 5 * (2) = 10
+        at i=3: l=3, r=3, area = 6
+        at i=4: l=2, r=5, area = 8
+        at i=5: l=5, r=5, area = 3
+
+        T: O(n^2)  [worst-case; ~n expansion cost per each of n columns]
+        S: O(1)
+        """
         n = len(heights)
         res = 0
 
@@ -33,6 +60,34 @@ class Solution:
         return res
 
     def largestRectangleArea(self, heights: list[int]) -> int:
+        """
+        Optimal: utilize stack to compute areas iteratively
+
+        # (index, height)
+        stack = [
+            (0, 2)+
+            (0, 1)-
+            (2, 5)+
+            (2, 5)+
+            (2, 2)-
+            (5, 3)-
+        ]
+
+        -: not explicitly computed (fully expandable to the end)
+        +: computed throughout iterations
+
+        Compute iteratively (+) when a lower height is reached further down
+        (i.e., it kind of cuts off the higher height from expanding further)
+
+        res = arg_max (h * (r - l + 1))
+
+        At end, stack will have the fully expandable histograms,
+        so we'll need one last loop to compute areas
+
+        T: O(n)  [going through all of heights]
+        S: O(n)  [worst-case: strictly increasing heights]
+        """
+
         n = len(heights)
         res = 0
 
@@ -58,7 +113,7 @@ class Solution:
         return res
 
 """
-dry-run of v2 (optimal):
+[optimal] Dry run:
 
    X
   XX
@@ -95,61 +150,3 @@ reverse order: (left to right)
 
 passes
 """
-
-
-"""
-brute force: just try every possible histogram
-
-at each point, expand as far left and right to get max
-(greedy expansion)
-
-ex1:
-
-   X
-  XX
-  XX
-  XX X
-X XXXX
-XXXXXX
-
-expand only while >= heights are in the direction
-
-at i=0: l=0, r=0, area = h * (r - l + 1) = 2
-at i=1: l=0, r=5, area = 1 * (6) = 6
-at i=2: l=2, r=3, area = 5 * (2) = 10
-at i=3: l=3, r=3, area = 6
-at i=4: l=2, r=5, area = 8
-at i=5: l=5, r=5, area = 3
-
-T: O(n^2)  [worst-case; ~n expansion cost per each of n columns]
-S: O(1)
-"""
-
-"""
-optimization: utilize stack to compute areas iteratively
-
-# (index, height)
-stack = [
-    (0, 2)+
-    (0, 1)-
-    (2, 5)+
-    (2, 5)+
-    (2, 2)-
-    (5, 3)-
-]
-
--: not explicitly computed (fully expandable to the end)
-+: computed throughout iterations
-
-compute iteratively (+) when a lower height is reached further down
-(i.e., it kind of cuts off the higher height from expanding further)
-
-res = arg_max (h * (r - l + 1))
-
-at end, stack will have the fully expandable histograms,
-so we'll need one last loop to compute areas
-
-T: O(n)  [going through all of heights]
-S: O(n)  [worst-case: strictly increasing heights]
-"""
-

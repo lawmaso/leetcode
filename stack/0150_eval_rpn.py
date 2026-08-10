@@ -14,7 +14,41 @@ The answer and all the intermediate calculations can be represented in a 32-bit 
 """
 
 class Solution:
-    def brute_evalRPN(self, tokens: list[str]) -> int:
+    def evalRPN(self, tokens: list[str]) -> int:
+        """
+        Brute force: linear scan
+
+        once an operator is found, grab the two values to its left
+        and replace all three tokens with the single computed result
+
+        ex1:
+        tokens = ["2","1","+","3","*"]
+
+        + found:
+            2, 1
+            2 + 1 = 3
+
+        tokens = [] + [str(3)] + ["3", "*"]
+
+        Each pass consumes 3 tokens (a, b, op) and produces 1,
+        so the list shrinks by 2 tokens per pass
+
+        We start with n tokens and end with 1, so total
+        shrinkage = n - 1 ~= n.
+
+        Divide by 2 per pass -> ~n/2 passes
+
+        Each pass also costs O(n): scanning to find the operator,
+        then rebuilding the list via slicing + concatenation
+
+        At end of the loop, we'll be left with one token,
+        which is the result of the rpn
+
+        return int(tokens[0])
+
+        T: O(n^2)  [(~n/2) * n]
+        S: O(n)   [new list rebuilt each pass, not mutated in place]
+        """
         while len(tokens) != 1:
             for i in range(len(tokens)):
                 if (op := tokens[i]) in "+-*/":
@@ -34,6 +68,18 @@ class Solution:
         return int(tokens[0])
 
     def evalRPN(self, tokens: list[str]) -> int:
+        """
+        Optimal: utilize stack for efficient computation
+
+        If char is not an operation: push
+        If chhar is an operation:    pop and append result of computation
+
+        Our stack will flatten to 1 element, to which we'll
+        just return stack[0]
+
+        T: O(n)
+        S: O(n)
+        """
         stack = []
 
         for token in tokens:
@@ -51,52 +97,3 @@ class Solution:
             if op == "/": stack.append(int(a / b))
 
         return stack[0]
-
-
-"""
-brute force: linear scan
-
-once an operator is found, grab the two values to its left
-and replace all three tokens with the single computed result
-
-ex1:
-tokens = ["2","1","+","3","*"]
-
-+ found:
-    2, 1
-    2 + 1 = 3
-
-tokens = [] + [str(3)] + ["3", "*"]
-
-each pass consumes 3 tokens (a, b, op) and produces 1,
-so the list shrinks by 2 tokens per pass
-
-we start with n tokens and end with 1,
-so total shrinkage = n - 1 ~= n
-divide by 2 per pass -> ~n/2 passes
-
-each pass also costs O(n): scanning to find the operator,
-then rebuilding the list via slicing + concatenation
-
-at end of loop, we'll be left with one token,
-which is the result of the rpn
-
-return int(tokens[0])
-
-T: O(n^2)  [(~n/2) * n]
-S: O(n)   [new list rebuilt each pass, not mutated in place]
-"""
-
-"""
-optimal: utilize stack for efficient computation
-
-if char is not an operation: push
-if chhar is an operation:    pop and append result of computation
-
-stack should flatten to 1 element, to which we'll
-return stack[0]
-
-T: O(n)
-S: O(n)
-"""
-
