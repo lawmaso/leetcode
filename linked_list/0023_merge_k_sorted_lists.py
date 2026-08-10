@@ -48,11 +48,11 @@ class Solution:
             return None
 
         merges = lists
-        while len(merges) >= 2:
+        while (n := len(merges)) >= 2:
             next_merges = []  # next lists to merge
 
             # pairwise merges
-            for i in range(0, len(merges), 2):
+            for i in range(0, n, 2):
                 l = merges[i]
                 r = merges[i + 1] if i + 1 < len(merges) else None
 
