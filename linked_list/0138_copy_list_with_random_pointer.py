@@ -61,6 +61,50 @@ class Solution:
 
         return map[head]
 
+    def copyRandomList(self, head: Node | None) -> Node | None:
+        """
+        Optimal+ approach: interleave -> partition
+
+        T: O(n)  [two-pass]
+        S: O(1)
+        """
+        if not head:
+            return None
+
+        curr = head
+        while curr:
+            copy = Node(curr.val)
+            copy.next = curr.next
+            curr.next = copy
+            curr = copy.next
+
+        new_head = head.next  # copy of head
+
+        # chain random pointers
+        curr = head
+        while curr:
+            if curr.random:
+                curr.next.random = curr.random.next
+            curr = curr.next.next
+
+        # undo interleaving to separate original from copy
+        curr = head
+        while curr:
+            copy = curr.next
+
+            # chain curr back to original next
+            curr.next = copy.next
+
+            # chain copy to its next (if it exists)
+            if copy.next:
+                copy.next = copy.next.next
+
+
+            # shift to next original node
+            curr = curr.next
+
+        return new_head
+
 """
 map original nodes to copies
 
