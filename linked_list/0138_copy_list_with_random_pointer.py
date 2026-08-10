@@ -42,16 +42,16 @@ class Node:
 
 class Solution:
     def copyRandomList(self, head: Node | None) -> Node | None:
-        map = dict()      # original: copy
+        map = dict()      # {original: copy}
         map[None] = None  # map None to itself in case next or random is None
 
         curr = head
         while curr:
             next, random = curr.next, curr.random
 
-            copy_curr   = map.setdefault(curr,   ListNode(curr.val))
-            copy_next   = map.setdefault(next,   ListNode(next.val) if next else None)
-            copy_random = map.setdefault(random, ListNode(random.val) if random else None)
+            copy_curr   = map.setdefault(curr,   Node(curr.val))
+            copy_next   = map.setdefault(next,   Node(next.val) if next else None)
+            copy_random = map.setdefault(random, Node(random.val) if random else None)
 
             # chain curr to next and random
             copy_curr.next = copy_next
@@ -112,4 +112,3 @@ ex:
 T: O(n)
 S: O(n)
 """
-
