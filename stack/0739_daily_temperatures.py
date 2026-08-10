@@ -23,9 +23,16 @@ Input: temperatures = [30,60,90]
 Output: [1,1,0]
 """
 
-
 class Solution:
-    def brute_dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+    def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
+        """
+        Brute force: check for larger from each
+
+        Double for-loop
+
+        T: O(n^2)
+        S: O(n)   [output]
+        """
         n = len(temperatures)
         res = [0] * n
 
@@ -38,6 +45,22 @@ class Solution:
         return res
 
     def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
+        """
+        Optimal: utilize stack
+
+        If prev stack push has a lower temp than the current,
+        we can update the days until warmer length for those in the stack
+        that have a lower temperature
+
+        Temperatures with no greater temp in the future will remain
+        in the stack
+
+        To account for indexes for the computation, augment the stack
+        entries as a tuple (index, temp)
+
+        T: O(n)
+        S: O(n)  [strictly decreasing; worst-case]
+        """
         n = len(temperatures)
 
         stack = []  # (index, temp)
@@ -53,30 +76,3 @@ class Solution:
             stack.append((curr_index, temp))
 
         return res
-
-"""
-brute force: check for larger from each
-
-double for-loop
-
-T: O(n^2)
-S: O(n)   [output]
-"""
-
-"""
-optimal: utilize stack
-
-if prev stack push has a lower temp than the current,
-we can update the days until warmer length for those in the stack
-that have a lower temperature
-
-
-temperatures with no greater temp in the future will remain
-in the stack
-
-to account for indexes for the computation, augment the stack
-entries as a tuple (index, temp)
-
-T: O(n)
-S: O(n)  [strictly decreasing; worst-case]
-"""
