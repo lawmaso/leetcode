@@ -28,6 +28,25 @@ Implement the encode and decode methods.
 
 
 class Solution:
+    """
+    To encode, we'll need a deterministic way to structure it
+    for decoding
+
+    We'd need state on: length, content, and some way to separate encodings
+
+    [delimit][length][content]
+    %4word
+    ^Doesn't work since word can contain digits, so the length gets lost
+
+    [length][delimit][content]
+    4%word
+
+    Once delimit is reached, we have the length; this is deterministic and should work
+
+    Encoding will just be the sum of [len(s)][delimit][content]
+
+    Then decoding will just build out the strings from this string
+    """
     d: str  # delimiter
 
     def __init__(self, d: str = "%"):
@@ -66,25 +85,3 @@ class Solution:
             i = j
 
         return decoding
-
-"""
-to encode, we'll need a deterministic way to structure it
-for decoding
-
-we'd need state on: length, content, and some way to separate encodings
-
-[delimit][length][content]
-%4word
-
-doesn't work since word can contain digits, so the length gets lost
-
-[length][delimit][content]
-4%word
-
-once delimit is reached, we have the length; this is deterministic and should work
-
-encoding will just be the sum of [len(s)][delimit][content]
-
-then decoding will just build out the strings from this string
-"""
-

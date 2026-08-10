@@ -11,7 +11,23 @@ time and without using the division operation.
 """
 
 class Solution:
-    def initial_product_except_self(self, nums: list[int]) -> list[int]:
+    def productExceptSelf(self, nums: list[int]) -> list[int]:
+        """
+        Optimal: prefix + suffix products
+
+        At any point, we just want the left and right product
+        from that point
+
+        Ex: [1, 2, 3, 4]
+
+        left_prod:  [1 (base), 1, 2, 6]
+        right_prod: [24, 12, 4, 1 (base)]
+
+        Then result is just element-wise product of both
+
+        T: O(n)
+        S: O(n)
+        """
         n = len(nums)
 
         prefix = [1] * n  # prefix[i] = product of left exluding i
@@ -36,7 +52,17 @@ class Solution:
 
         return res
 
-    def product_except_self(self, nums: list[int]) -> list[int]:
+    def productExceptSelf(self, nums: list[int]) -> list[int]:
+        """
+        Improvement: get rid of one of prefix or suffix
+        lists as we utilize just one to do the computation in-place
+
+        With this, we do less passes through the list and the result
+        is computed iteratively, not through a final pass.
+
+        T: O(n)
+        S: O(n)
+        """
         n = len(nums)
         res = [1] * n
         
@@ -53,32 +79,3 @@ class Solution:
             p *= nums[i]
 
         return res
-
-"""
-at any point, we just want the left and right product
-from that point
-
-ex: [1, 2, 3, 4]
-
-left_prod:  [1 (base), 1, 2, 6]
-right_prod: [24, 12, 4, 1 (base)]
-
-then result is just element-wise product of both
-
-prefixing and suffixing products
-
-T: O(n)
-S: O(n)
-
----
-
-to improve the initial solution, we can get rid of one of prefix
-or suffix lists as we utilize just one to do the computation in-place
-
-can also get of result we're building this in-place
-
-we now do less passes in this solution
-
-T: O(n)
-S: O(n)
-"""

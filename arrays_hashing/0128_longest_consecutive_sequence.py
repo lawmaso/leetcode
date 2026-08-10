@@ -1,5 +1,17 @@
 class Solution:
-    def initial_longest_consecutive(self, nums: list[int]) -> int:
+    def longestConsecutive(self, nums: list[int]) -> int:
+        """
+        Initial approach: sort
+
+        Since elements can be out of order, sort entire list
+        and determine the longest sequence via counting while diffs
+        are 1
+
+        Skip duplicates
+
+        T: O(nlog(n))
+        S: O(1)/O(n) [depends on sort algorithm]
+        """
         if not nums:
             return 0
 
@@ -21,7 +33,20 @@ class Solution:
 
         return res
 
-    def longest_consecutive(self, nums: list[int]) -> int:
+    def longestConsecutive(self, nums: list[int]) -> int:
+        """
+        Optimal: count from entrypoints in a sequence
+
+        No need to sort after hashing the list into a set of values
+        to check if the subsequent value(s) exist, just check that
+        (v + i) is in the set and increase length
+
+        Casting to set is also simpler as we avoid checking for duplicates
+        explicitly
+
+        T: O(n) [building set + main loop]
+        S: O(n) [set]
+        """
         n = len(nums)
         unique = set(nums)  # unique nums
 
@@ -40,18 +65,7 @@ class Solution:
         return res
 
 """
-initial approach: sort
-
-since elements can be out of order, sort entire list
-and determine the longest sequence via counting while diffs
-are 1
-
-skip duplicates
-
-T: O(nlog(n))
-S: O(1)/O(n) [depends on sort algorithm]
-
-ex: [100,4,200,1,3,2]
+[brute force] ex: [100,4,200,1,3,2]
 
 [1, 2, 3, 4, 100, 200]
               i
@@ -62,18 +76,4 @@ length = 0
 
 ex: [1, 2, 3, 4]
 length=4
-"""
-
-"""
-optimization: count from entrypoints in a sequence
-
-no need to sort after hashing the list into a set of values
-to check if the subsequent value(s) exist, just check that
-(v + i) in set and increase length
-
-casting to set is also simpler as we avoid checking for duplicates
-explicitly
-
-T: O(n) [building set + main loop]
-S: O(n) [set]
 """
