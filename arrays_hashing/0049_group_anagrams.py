@@ -24,7 +24,22 @@ Output: [["a"]]
 """
 
 class Solution:
-    def brute_is_anagram(self, strs: list[str]) -> list[list[str]]:
+    def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
+        """
+        Brute force: check all pairs
+
+        When checking a pair, assume i is the group representative.
+        if i is not it's own representative, then it was already examined and
+        grouped with other strings
+
+        Group should be in a sort of map, keyed by their
+        representative's index
+
+        return list(map.values())
+
+        T: O(n^2)
+        S: O(n)
+        """
         n = len(strs)
         groups = dict()
         parent = list(range(n))
@@ -59,7 +74,19 @@ class Solution:
 
         return list(groups.values())
 
-    def optimal_is_anagram(self, strs: list[str]) -> list[list[str]]:
+    def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
+        """
+        Optimal: group by the character pattern count of each string
+
+        Avoids ever having to examine pairs, which lead to n^2 runtime
+
+        The pattern is just the count of characters that compose the string
+        - We first build this out as a list;
+        - Then cast it to a tuple to make it hashable in our hash map
+
+        T: O(n)
+        S: O(n)
+        """
         groups = dict()
 
         for s in strs:
@@ -70,33 +97,3 @@ class Solution:
             groups.setdefault(tuple(pattern), []).append(s)
 
         return list(groups.values())
-
-"""
-brute force: check all pairs
-
-when checking a pair, assume i is the group representative.
-if i is not it's own representative, then it was already examined and
-grouped with other strings
-
-groups should be in a sort of map, keyed by their
-representative's index
-
-return list(map.values())
-
-T: O(n^2)
-S: O(n)
-"""
-
-"""
-optimization: group by the character pattern count of each string
-
-avoids ever having to examine pairs, which lead to n^2 runtime
-
-the pattern is just the count of characters that compose the string
-- we first build this out as a list
-- then cast it to a tuple to make it hashable in our hash map
-
-T: O(n)
-S: O(n)
-"""
-
