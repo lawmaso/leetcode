@@ -108,6 +108,37 @@ class Solution:
 
         return sentinel.next
 
+    def reverseKGroup(self, head: ListNode | None, k: int) -> ListNode | None:
+        def _kth(curr: ListNode, k: int) -> ListNode | None:
+            while curr and k > 0:
+                curr = curr.next
+                k -= 1
+            return curr
+
+        sentinel = group_prev = ListNode(next=head)
+
+        while True:
+            kth = _kth(group_prev, k)
+
+            # not enough nodes to form k-group
+            if not kth:
+                break
+
+            group_next = kth.next
+            prev, curr = group_next, group_prev.next
+
+            # reverse the k-group
+            while curr != group_next:
+                temp = curr.next
+                curr.next = prev
+                prev = curr
+                curr = temp
+
+            tail = group_prev.next  # kth became the tail of the k-group through reversal
+            group_prev.next = prev  # prev is new head of the k-group
+            group_prev = tail
+
+        return sentinel.next
 
 if __name__ == "__main__":
     soln = Solution()
