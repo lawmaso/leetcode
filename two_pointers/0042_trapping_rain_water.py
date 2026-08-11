@@ -68,6 +68,36 @@ class Solution:
 
         return trapped
 
+    def trap(self, height: list[int]) -> int:
+        """
+        Optimal+: two pointers
+
+        No need to actually determine the true left/right max
+
+        Being a lowerbound already gives us enough information
+        to determine how much water can be trapped at an index
+
+        T: O(n)
+        S: O(1)
+        """
+        n = len(height)
+        trapped = 0
+
+        l, r = 0, n - 1
+        left_max, right_max = height[l], height[r]
+
+        while l < r:
+            if left_max < right_max:
+                l += 1
+                left_max = max(left_max, height[l])
+                trapped += left_max - height[l]
+            else:
+                r -= 1
+                right_max = max(right_max, height[r])
+                trapped += right_max - height[r]
+
+        return trapped
+
 if __name__ == "__main__":
     soln = Solution()
 
