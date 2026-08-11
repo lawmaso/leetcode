@@ -25,7 +25,18 @@ Output: 1
 """
 
 class Solution:
-    def brute_maxArea(self, height: list[int]) -> int:
+    def maxArea(self, height: list[int]) -> int:
+        """
+        Brute force: for each left, check all possible areas
+
+        Assuming index l is the left
+
+        For all l:
+            res = arg_max [min(heights[l], heights[r]) * (r - l)]
+
+        T: O(n^2)
+        S: O(1)
+        """
         n = len(height)
         res = 0
 
@@ -37,6 +48,20 @@ class Solution:
         return res
 
     def maxArea(self, height: list[int]) -> int:
+        """
+        Optimal: greedy expansion using two pointers
+
+        left and right
+
+        Expanding inwards -> width decreases, so attempt to increase height
+
+        For l or r, choose to update the minimum one
+            If l and r have the same height, choose either
+                Choose left for determinism/standard
+
+        T: O(n)
+        S: O(1)
+        """
         n = len(height)
         res = 0
 
@@ -54,31 +79,3 @@ class Solution:
                 r -= 1
 
         return res
-
-"""
-brute force: for each left, check all possible areas
-
-assuming index l is the left
-
-for all l:
-    res = arg_max [min(heights[l], heights[r]) * (r - l)]
-
-T: O(n^2)
-S: O(1)
-"""
-
-"""
-optimization: greedy expansion using two pointers
-
-left and right
-
-expand inwards -> width decreases, so attempt to increase height
-
-for l or r, choose to update the minimum one
-    if l and r have the same height, choose either
-        choose left for determinism/standard
-
-T: O(n)
-S: O(1)
-"""
-

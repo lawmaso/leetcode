@@ -9,7 +9,22 @@ Given a string s, return true if it is a palindrome, or false otherwise.
 """
 
 class Solution:
-    def brute_is_palindrome(self, s: str) -> bool:
+    def isPalindrome(self, s: str) -> bool:
+        """
+        Brute force: build out list of alphanumeric characters
+
+        Two pointer on the list to check that the list
+        is palindromic
+
+        ex:
+        race a car
+        lst = [r,a,c,e,a,c,a,r]
+            + + + - - + + +
+            the middle a and e don't match; not a palindrome
+
+        T: O(n)
+        S: O(n)
+        """
         lst = []
 
         # build out list
@@ -27,17 +42,26 @@ class Solution:
 
         return True
 
-    def is_palindrome(self, s: str) -> bool:
+    def isPalindrome(self, s: str) -> bool:
+        """
+        Optimal: remove additional space via in-place traversal
+
+        Still two pointers, just skips over non-relevant
+        characters (i.e., non-alphanumeric)
+
+        T: O(n)
+        S: O(1)
+        """
         n = len(s)
         l, r = 0, n - 1
 
         # check alpnumeric normalized pairs
         while l < r:
-            # shift l to next alphanum (rightward)
+            # shift l to next alphanumeric (rightward)
             while l < r and not s[l].isalnum():
                 l += 1
             
-            # shift r to next alphanum (leftward)
+            # shift r to next alphanumeric (leftward)
             while l < r and not s[r].isalnum():
                 r -= 1
 
@@ -52,29 +76,3 @@ class Solution:
             r -= 1
 
         return True
-
-"""
-brute force: build out list of alphanumeric characters
-
-then two pointer on that to check that the list
-is palindromic in terms of its entries
-
-ex:
-race a car
-lst = [r,a,c,e,a,c,a,r]
-       + + + - - + + +
-    the middle a and e don't match; not a palindrome
-
-T: O(n)
-S: O(n)
-"""
-
-
-"""
-optimal: remove additional space via in-place traversal
-
-still two pointers
-
-T: O(n)
-S: O(1)
-"""

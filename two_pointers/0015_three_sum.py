@@ -8,7 +8,23 @@ triplets.
 """
 
 class Solution:
-    def brute_three_sum(self, nums: list[int]) -> list[list[int]]:
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
+        """
+        Brute force: try all triplets
+
+        Use a set and custom hash to avoid duplicates
+        that could also be out of order
+
+        T: O(n^3)
+        S: O(m)   [where m is the number of unique triplets]
+
+        C(n, k) := n!/k!(n - k)!
+
+        C(n, 3) := n!/3!(n - 3)!
+                := n(n-1)(n-2)(n-3)!/3!(n - 3)!
+                := n(n-1)(n-2)/6
+            ~= n^3
+        """
         n = len(nums)
 
         seen = set()  # triplet hashes
@@ -27,7 +43,18 @@ class Solution:
 
         return res
 
-    def three_sum(self, nums: list[int]) -> list[list[int]]:
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
+        """
+        Optimal: sort first then two pointer
+
+        First, we fix i at some point, then do a two pointer
+        on j and k in the remaining indices
+
+        j and k will be looking for the negation of i
+
+        T: O(nlog(n) + n^2) = O(n^2)
+        S: O(1)
+        """
         n = len(nums)
         res = []
 
@@ -62,32 +89,3 @@ class Solution:
                     r -= 1
 
         return res
-
-"""
-brute force: try all triplets
-
-use set and custom hash to avoid duplicates
-that could also be out of order
-
-T: O(n^3)
-S: O(m)   [where m is the number of unique triplets]
-
-C(n, k) := n!/k!(n - k)!
-
-C(n, 3) := n!/3!(n - 3)!
-        := n(n-1)(n-2)(n-3)!/3!(n - 3)!
-        := n(n-1)(n-2)/6
-    ~= n^3
-"""
-
-"""
-optimized: sort first then two pointer
-
-first, we fix i at some point, then do a two pointer
-on j and k in the remaining indices
-
-j and k will be looking for the negation of i
-
-T: O(nlog(n) + n^2) = O(n^2)
-S: O(1)
-"""
