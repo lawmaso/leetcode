@@ -36,6 +36,34 @@ class Solution:
 
             nums[val] *= -1
 
+    def findDuplicate(self, nums: list[int]) -> int:
+        """
+        Optimal: simulate linked list
+
+        T: O(n)
+        S: O(1)
+        """
+        slow = fast = 0
+
+        # phase 1: 
+        while True:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+
+            # break at the intersection of slow and fast
+            # NOTE: this intersection is not necessarily the duplicate
+            if slow == fast:
+                break
+
+        # phase 2: find duplicate (i.e., the entry point of the cycle)
+        slow2 = 0
+        while True:
+            slow = nums[slow]
+            slow2 = nums[slow2]
+
+            if slow == slow2:
+                return slow
+
 """
 Brute force v1: use a set
 
