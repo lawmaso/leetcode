@@ -31,6 +31,17 @@ class Solution:
         )
 
     def isSubtree(self, root: TreeNode, subRoot: TreeNode) -> bool:
+        """
+        Approach: recursive DFS
+
+        DFS when the value in root matches subRoot, then
+        just check that they are the same tree
+
+        If not, continue searching the main tree, root
+
+        T: O(n)
+        S: O(h)
+        """
         def dfs(node: TreeNode) -> bool:
             if not node:
                 return False
@@ -43,7 +54,7 @@ class Solution:
         return dfs(root)
 
 """
-ex1:
+Ex1:
 
 Input: root = [3,4,5,1,2], subRoot = [4,1,2]
 Output: true
@@ -51,13 +62,4 @@ Output: true
         3
     4       5
 1       2
-
-dfs when the value in root matches subRoot, then
-just check that they are the same tree
-
-if not, continue searching the main tree, root
-
-T: O(n)
-S: O(h)
 """
-

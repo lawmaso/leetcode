@@ -88,14 +88,14 @@ class Solution:
 
     def buildTree(self, preorder: list[int], inorder: list[int]) -> TreeNode | None:
         """
-        recursive dfs with hash map of values
-        to indices for faster index lookups in
-        inorder
+        Optimal: DFS w/ hash map
+
+        Recursive dfs with hash map of values
+        to indices for faster lookups into inorder
 
         T: O(n)
         S: O(n)
         """
-
         n = len(preorder)
         index = {v: i for i, v in enumerate(inorder)}  # index[v] = index of v in inorder
 
@@ -115,3 +115,13 @@ class Solution:
             return root
 
         return dfs(0, n - 1)
+
+"""
+Preorder: root, left, right
+Inorder:  left, root, right
+
+root_val = preorder[p]
+index = inorder[root_val]
+    left of index  = left subtree of root
+    right of index = right subtree of root
+"""

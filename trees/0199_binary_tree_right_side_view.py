@@ -31,19 +31,17 @@ class Solution:
 
     def rightSideView(self, root: TreeNode | None) -> list[int]:
         """
-        iterative bfs
+        Iterative BFS
 
-        append the value of the last
+        Append the value of the last
         node of the frontier
 
-        from left to right, append non-null childnre
-            append left child then right child to ensure
-            ordering is respected
+        From left to right, append non-null children
+        Append left child then right child to ensure ordering is respected
 
         T: O(n)
         S: O(n)
         """
-        
         from collections import deque
 
         if not root:
@@ -62,10 +60,8 @@ class Solution:
                 if node.left:  q.append(node.left)
                 if node.right: q.append(node.right)
 
-
                 # check if last value
                 if i == n - 1:
                     res.append(node.val)
 
         return res
-

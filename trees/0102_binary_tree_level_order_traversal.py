@@ -31,15 +31,14 @@ class Solution:
 
     def levelOrder(self, root: TreeNode | None) -> list[list[int]]:
         """
-        iterative bfs
+        Approach: iterative BFS
 
-        append the frontier of the queue
-        at each iteration of the bfs
+        Append the frontier of the queue
+        at each iteration of the BFS
 
         T: O(n)
         S: O(n)
         """
-
         from collections import deque
 
         if not root:
@@ -67,4 +66,3 @@ class Solution:
             res.append(frontier)
 
         return res
-

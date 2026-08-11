@@ -36,21 +36,20 @@ class Solution:
             1       4+
         3+         1  5+
 
-        no nodes in the path greater than x
-            -> for all n, n.val <= x
+        No nodes in the path greater than x
+            -> For all n, n.val <= x
 
-            so argmax of path <= x
+            So argmax of path <= x
 
-        iterative bfs from the root
+        Approach: iterative BFS from the root
 
-        keep track of the max, then check that the current node
-        is <= that max
-            if true, then increase good count
-            else, skip
+        Keep track of the max, then check that the current node is <= that max
+            If true, then increase good count
+            Else, skip
 
-            in both cases, update max
+            In both cases, update max
 
-        T: O(n)  [bfs]
+        T: O(n)  [BFS]
         S: O(n)  [worst-case; last level ~= n/2 leaves]
         """
 
@@ -76,7 +75,7 @@ class Solution:
         return good_count
 
 """
-dry-run of ex1:
+Dry run of ex1:
 
         3
     1       4

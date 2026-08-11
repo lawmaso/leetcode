@@ -32,10 +32,10 @@ class Solution:
         inorder:         left, curr, right
         postorder[::-1]: curr, right, left
 
-        approach: reverse postorder so earlier nodes come
-        first in out dfs
+        Approach: reverse postorder so earlier nodes come
+        first in the DFS
 
-        then use inorder to recursively construct the left and right
+        Then use inorder to recursively construct the left and right
         subtrees to add to the current node
         """
         if not all([inorder, postorder]):

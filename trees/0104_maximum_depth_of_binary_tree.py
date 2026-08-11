@@ -9,19 +9,6 @@ along the longest path from the root node down to the
 farthest leaf node.
 """
 
-"""
-recursive bottom-up dfs
-
-if node is null: return 0
-
-return 1 + max(depth(left), depth(right))
-    - include 1 for the current node (inclusive)
-    - take max of either since we want to maximize
-
-T: O(n) [visit each node]
-S: O(h) [recursion stack; between O(log(n)) and O(n)]
-"""
-
 class TreeNode:
     val: int
     left: TreeNode | None
@@ -33,7 +20,19 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def recursive_maxDepth(self, root: TreeNode | None) -> int:
+    def maxDepth(self, root: TreeNode | None) -> int:
+        """
+        Approach: Recursive bottom-up dfs
+
+        If a node is null: return 0
+
+        Return 1 + max(depth(left), depth(right))
+            - Include 1 for the current node (inclusive)
+            - Take max of either since we want to maximize
+
+        T: O(n) [visit each node]
+        S: O(h) [recursion stack; between O(log(n)) and O(n)]
+        """
         if not root:
             return 0
 
@@ -42,7 +41,20 @@ class Solution:
             self.maxDepth(root.right)
         )
 
-    def iterative_maxDepth(self, root: TreeNode | None) -> int:
+    def maxDepth(self, root: TreeNode | None) -> int:
+        """
+        Approach: iterative bfs
+
+        depth = 0
+
+        Explore paths to leafs, keeping track
+        of current depth
+
+        Maximize the depth to get the result
+
+        T: O(n)
+        S: O(n)
+        """
         from collections import deque
 
         if not root:
@@ -62,19 +74,3 @@ class Solution:
             if node.right: q.append((node.right, depth + 1))
 
         return self.res
-
-
-"""
-iterative bfs
-
-depth = 0
-
-explore paths to leafs, keeping track
-of current depth
-
-maximize the depth to get the result
-
-T: O(n)
-S: O(n)
-"""
-

@@ -23,17 +23,16 @@ class Solution:
 
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         """
-        initial solution: create parent mapping
+        Initial approach: create parent mapping
 
-        use the parent mapping to find the earliest common
+        Use the parent mapping to find the earliest common
         parent of p and q
 
-        relies on TreeNode being hashable into dict keys
+        Relies on TreeNode being hashable into dict keys
 
         T: O(n)
         S: O(n + h) = O(n)
         """
-
         parent_map = dict()
 
         def build_parent_map(node: TreeNode | None, parent: TreeNode | None = None):
@@ -70,17 +69,16 @@ class Solution:
 
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
         """
-        iterative search for the pivot node
+        Approach: iterative search for the pivot node
 
-        look for pivot node using bst property
+        Look for pivot node using BST property
 
-        lca will be where the nodes diverge into
-        left and right subtrees
+        The LCA will be where the nodes split into different
+        subtrees
 
         T: O(h)
         S: O(1)
         """
-        
         vals = [p.val, q.val]
         mn, mx = min(vals), max(vals)
 

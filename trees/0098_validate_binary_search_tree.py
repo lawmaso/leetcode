@@ -21,15 +21,14 @@ class Solution:
 
     def isValidBST(self, root: TreeNode | None) -> bool:
         """
-        brute force: inorder traversal
+        Brute force: inorder traversal
 
-        convert tree to list of values
+        Convert tree to list of values
         then check that it's increasing
 
         T: O(n)
         S: O(n + h) = O(n)
         """
-
         vals = []
 
         def dfs(node: TreeNode | None):
@@ -45,15 +44,15 @@ class Solution:
 
     def isValidBST(self, root: TreeNode | None) -> bool:
         """
-        recursive dfs with bounds 
+        Optimal: recursive DFS with lower and upper bounds 
         
-        after each node is processed, the value becomes
-        the new boundary
+        After each node is processed, the value becomes
+        the new boundary for its subtrees
 
-        if left, val is the new upper bound
-        if right, val is the new lower bound
+        If leftward, val is the new upper bound
+        If rightward, val is the new lower bound
 
-        to validate, we just need to check all values
+        To validate, we just need to check all values
         are within the range (lo, hi)
 
         T: O(n)

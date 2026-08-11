@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 """
-Given the root of a binary tree, return the length of the diameter of the tree.
+Given the root of a binary tree, return the length of the diameter
+of the tree.
 
-The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+The diameter of a binary tree is the length of the longest path
+between any two nodes in a tree. This path may or may not pass
+through the root.
 
-The length of a path between two nodes is represented by the number of edges between them.
+The length of a path between two nodes is represented by the number
+of edges between them.
 """
 
 class TreeNode:
@@ -20,6 +24,17 @@ class TreeNode:
 
 class Solution:
     def diameterOfBinaryTree(self, root: TreeNode | None) -> int:
+        """
+        Approach: determine argmax of sum(leftHeight, rightHeight)
+
+        Equivalent solution would be to maximize the
+        sum of left and right depths/heights
+
+        Bottom-up DFS to get heights efficiently
+
+        T: O(n)  [visit all nodes once]
+        S: O(h)  [bounded between O(log(n)) and O(n); balanced v. unbalanced]
+        """
         diameter = 0
 
         def dfs(node: TreeNode | None) -> int:
@@ -53,14 +68,3 @@ Output: 3
 
 Explanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
 """
-
-"""
-equivalent solution would be to maximize the
-sum of left and right depths/heights
-
-bottom-up dfs to get heights efficiently
-
-T: O(n)  [visit all nodes once]
-S: O(h)  [bounded between O(log(n)) and O(n); balanced v. unbalanced]
-"""
-

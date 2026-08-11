@@ -17,20 +17,19 @@ class Solution:
 
     def isSameTree(self, p: TreeNode | None, q: TreeNode | None) -> bool:
         """
-        recursion (dfs)
+        Recursive DFS
 
-        base case(s): one is null while the other isn't; false
+        Base case(s): one is null while the other isn't; false
                       values aren't equivalent; false
                       both null; true
 
-        recursive case: continue on children structurally
+        Recursive case: continue on children structurally
 
         dfs(p.left, q.left) and dfs(p.right, q.right)
 
         T: O(n)
         S: O(h)
         """
-        
         if not p and not q: return True
         elif not p:         return False
         elif not q:         return False
@@ -43,20 +42,18 @@ class Solution:
 
     def isSameTree(self, p: TreeNode | None, q: TreeNode | None) -> bool:
         """
-        iterative bfs
+        Approach: iterative BFS
 
-        queue with tuples of (left, right), initially append
+        Queue with tuples of (left, right), initially append
         (p, q) to the queue
 
-        at each iteration, check that left and right are valid and 
+        At each iteration, check that left and right are valid and 
         their values match
 
-        any mismatch: not the same tree
+        Any mismatch: not the same tree
 
-        after bfs finishes, result is always true since checks
-        passes
+        After BFS finishes, result is always true since checks passes
         """
-
         from collections import deque
 
         q = deque([(p, q)])
@@ -75,4 +72,3 @@ class Solution:
             q.append((l.right, r.right))
 
         return True
-

@@ -1,8 +1,5 @@
 from __future__ import annotations
 
-"""
-Given a binary tree, determine if it is height-balanced.
-"""
 
 class TreeNode:
     val: int
@@ -15,13 +12,19 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def old_isBalanced(self, root: TreeNode | None) -> bool:
+    """
+    Given a binary tree, determine if it is height-balanced.
+    """
+
+    def isBalanced(self, root: TreeNode | None) -> bool:
         """
-        want children heights to never diff by more than 1
+        Approach: bottom-up augmented DFS
 
-        want abs(lh - rh) <= 1
+        Want children heights to never diff by more than 1
 
-        bottom-up augmented dfs that returns
+        So, abs(lh - rh) <= 1
+
+        Bottom-up augmented DFS that returns
         tuple of (valid: bool, height: int)
 
         T: O(n)
@@ -46,12 +49,14 @@ class Solution:
 
     def isBalanced(self, root: TreeNode | None) -> bool:
         """
-        to make the code less verbose, we can encode
+        To make the code less verbose, we can encode
         validity into the height itself as -1 since heights start at 0
 
-        same time and space as the original solution
-        """
+        We can use -1 since no subtree will ever have this height
 
+        T: O(n)
+        S: O(h)
+        """
         def dfs(node: TreeNode | None) -> int:
             if not node:
                 return 0
@@ -67,7 +72,6 @@ class Solution:
             diff = abs(right_height - left_height)
             return 1 + max(left_height, right_height) if diff <= 1 else -1
 
-
         # if tree is balanced; all checks will pass and we'll
         # get returned a non-negative height
         return dfs(root) != -1
@@ -82,4 +86,3 @@ Output: true
     9       20
           15  7
 """
-

@@ -17,15 +17,14 @@ class Solution:
 
     def kthSmallest(self, root: TreeNode | None, k: int) -> int:
         """
-        brute force: inorder dfs
+        Brute force: inorder DFS
 
         build out values list and just
-        return vals[k - 1]
+        return the value at index (k-1)
 
         T: O(n)
         S: O(n)
         """
-
         vals = []
         def dfs(node: TreeNode | None):
             if not node:
@@ -40,9 +39,9 @@ class Solution:
 
     def kthSmallest(self, root: TreeNode | None, k: int) -> int:
         """
-        optimal: prune the search tree based on k
+        Optimal: prune the search tree based on k
 
-        need to somehow get the sizes of the subtrees
+        Need to somehow get the sizes of the subtrees
             -> bottom-up dfs
 
             3
@@ -71,7 +70,6 @@ class Solution:
         T: O(n)
         S: O(h)
         """
-
         def dfs(node: TreeNode | None) -> int:
             nonlocal k
 

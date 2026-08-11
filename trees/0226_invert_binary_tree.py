@@ -11,7 +11,19 @@ class TreeNode:
         self.right = right
 
 class Solution:
-    def recursive_invertTree(self, root: TreeNode | None) -> TreeNode | None:
+    def invertTree(self, root: TreeNode | None) -> TreeNode | None:
+        """
+        Approach: bottom-up DFS
+
+            2
+        1       3
+
+        1/2: no children
+        at 2: root.left, root.right  root.right, root.left
+
+        T: O(n)  [each node visited once]
+        S: O(h)  [height of tree; between O(log(n)) and O(n)]
+        """
         if not root:
             return None
 
@@ -24,7 +36,28 @@ class Solution:
         
         return root
     
-    def iterative_invertTree(self, root: TreeNode | None) -> TreeNode | None:
+    def invertTree(self, root: TreeNode | None) -> TreeNode | None:
+        """
+        Approach: iterative BFS
+
+        ex:
+        [2,1,3]
+
+            2
+        1       3
+
+        queue = [(root, left, right)]
+        head, l, r = queue.popleft()
+
+        ... [continue on children]
+
+        On second thought, we don't need the queue to have left and right
+        children as that's already a given inside of the node in each tuple
+        entry
+
+        T: O(n)  [visit each node]
+        S: O(n)  [queue length at last level ~= n/2]
+        """
         from collections import deque
 
         if not root:
@@ -42,40 +75,3 @@ class Solution:
             if node.right: q.append(node.right)
 
         return root
-
-"""
-recursion: bottom-up dfs
-
-    2
-1       3
-
-1/2: no children
-at 2: root.left, root.right  root.right, root.left
-
-
-T: O(n)  [each node visited once]
-S: O(h)  [height of tree; between O(log(n)) and O(n)]
-"""
-
-"""
-iterative: bfs
-
-ex:
-[2,1,3]
-
-    2
-1       3
-
-queue = [(root, left, right)]
-head, l, r = queue.popleft()
-
-... [continue on children]
-
-on second thought, we don't need the queue to have left and right
-children as that's already a given inside of the node in each tuple
-entry
-
-T: O(n)  [visit each node]
-S: O(n)  [queue length at last level ~= n/2]
-"""
-
