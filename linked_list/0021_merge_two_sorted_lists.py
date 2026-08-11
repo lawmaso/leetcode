@@ -9,7 +9,15 @@ class ListNode:
         self.next = next
 
 class Solution:
-    def brute_mergeTwoLists(self, list1: ListNode | None, list2: ListNode | None) -> ListNode | None:
+    def mergeTwoLists(self, list1: ListNode | None, list2: ListNode | None) -> ListNode | None:
+        """
+        Brute force: add all nodes to a list in sorted order,
+        then splice them together by pointing them in sequential order
+            i.e., i -> i + 1 -> ... -> n - 1
+
+        T: O(n)
+        S: O(n)
+        """
         if not list1:
             return list2
         if not list2:
@@ -40,6 +48,14 @@ class Solution:
         return nodes[0]
     
     def mergeTwoLists(self, list1: ListNode | None, list2: ListNode | None) -> ListNode | None:
+        """
+        Optimal: in-place splicing
+
+        Build out new list by comparing values at each point
+
+        T: O(n)
+        S: O(1)
+        """
         if not list1: return list2
         if not list2: return list1
 
@@ -62,22 +78,3 @@ class Solution:
 
         # return newly formed list
         return sentinel.next
-
-"""
-brute force: add all nodes to a list in sorted order,
-then splice them together by pointing them in sequential order
-    i.e., i -> i + 1 -> ... -> n - 1
-
-T: O(n)
-S: O(n)
-"""
-
-"""
-optimal: in-place splicing
-
-build out new list by comparing values at each point
-
-T: O(n)
-S: O(1)
-"""
-

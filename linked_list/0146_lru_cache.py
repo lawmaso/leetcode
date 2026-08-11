@@ -25,6 +25,23 @@ class LRUNode:
         self.prev = self.next = None
 
 class LRUCache:
+    """
+    Optimal: doubly linked list
+
+    l - r (sentinel head and tail)
+        left: lru
+        right: mru
+    Only allow <capacity> nodes between l and r
+
+    On put: add just before mru
+        if over capacity, pop the right of the lru node
+
+    On get: check if the key is cached
+
+    cache[int, LRUNode]
+
+    Achieves O(1) per operation
+    """
     capacity: int
     cache: dict[int, LRUNode]
     left: LRUNode
@@ -86,23 +103,3 @@ class LRUCache:
             # to delete this node from the cache we need it's key;
             # so we'll augment LRUNode with this attribute
             del self.cache[lru.key]
-
-
-"""
-doubly linked list
-
-l - r (sentinel head and tail)
-    left: lru
-    right: mru
-only allow <capacity> nodes between l and r
-
-on put: add just before mru
-    if over capacity, pop the right of the lru node
-
-on get: check if the key is cached
-
-cache[int, LRUNode]
-
-achieves O(1) per operation
-"""
-

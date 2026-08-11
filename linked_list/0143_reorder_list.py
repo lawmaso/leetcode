@@ -15,7 +15,26 @@ class ListNode:
         self.next = next
 
 class Solution:
-    def brute_reorderList(self, head: ListNode | None) -> None:
+    def reorderList(self, head: ListNode | None) -> None:
+        """
+        Brute force: list -> splice
+
+        Append all nodes into a list [L0, L1, ... Ln]
+
+        Utilize list to form the ordering L0, Ln, ...
+
+        Then splice them together in one-pass
+
+        return L0
+
+        left and right pointers: l and r
+            append l then r
+
+        if l == r, append either just once and break
+
+        T: O(n)
+        S: O(n)
+        """
         if not head: return None
 
         nodes = []
@@ -47,6 +66,53 @@ class Solution:
         return seq[0]  # == head
 
     def reorderList(self, head: ListNode | None) -> None:
+        """
+        Optimal: in-place splicing
+
+        1, 2, 3, 4
+
+        Split from half so we have partitions starting
+        from the head and tail, but reverse the right portion so
+        Ln appears first, then Ln-1, ..., etc.
+
+        slow=3
+        fast=null
+
+        1,2|3,4
+        1,2|4,3
+        1, 2
+        4, 3
+
+        1->4->2->3
+
+        odd case: [1, 2, 3]
+
+        slow=2
+        fast=3
+        1|2,3
+        1|3,2
+
+        1
+        3,2
+
+        Say we have left and right to represent the partitions
+
+        left_next = left.next
+        right_next = right.next
+
+        left.next = right
+        if not left_next: # shouldn't connect right to left_next
+            break
+
+        right.next = left_next
+
+        # shift
+        left = left_next
+        right = right_next
+
+        T: O(n)
+        S: O(1)
+        """
         if not head: return None
 
         prev = None
@@ -116,73 +182,3 @@ if __name__ == "__main__":
     while curr:
         print(curr.val)
         curr = curr.next
-
-"""
-brute force
-
-append all nodes into a list [L0, L1, ... Ln]
-
-utilize list to form the ordering L0, Ln, ...
-
-then splice them together in one-pass
-
-return L0
-
-left and right pointers: l and r
-    append l then r
-
-if l == r, append either just once and break
-
-T: O(n)
-S: O(n)
-"""
-
-"""
-optimal: in-place splicing
-
-1, 2, 3, 4
-
-split from half so we have partitions starting
-from the head and tail, but reverse the right portion so
-Ln appears first, then Ln-1, ..., etc.
-
-slow=3
-fast=null
-
-1,2|3,4
-1,2|4,3
-1, 2
-4, 3
-
-1->4->2->3
-
-odd case: [1, 2, 3]
-
-slow=2
-fast=3
-1|2,3
-1|3,2
-
-1
-3,2
-
-so say we have left and right to represent the partitions
-
-left_next = left.next
-right_next = right.next
-
-left.next = right
-if not left_next: # shouldn't connect right to left_next
-    break
-
-right.next = left_next
-
-# shift
-left = left_next
-right = right_next
-
-
-T: O(n)
-S: O(1)
-"""
-

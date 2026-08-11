@@ -14,7 +14,19 @@ class ListNode:
         self.next = next
 
 class Solution:
-    def brute_removeNthFromEnd(self, head: ListNode | None, n: int) -> ListNode | None:
+    def removeNthFromEnd(self, head: ListNode | None, n: int) -> ListNode | None:
+        """
+        Brute force: convert nodes to list form, and
+        rechain at the pivot
+
+        Edge case: nth node is n, so the list won't have
+        a left node to chain
+
+        So add a sentinel at the front to make indexing cleaner
+
+        T: O(n)
+        S: O(n)
+        """
         nodes = [ListNode(next=head)]  # sentinel at index 0
 
         curr = head
@@ -28,6 +40,24 @@ class Solution:
         return nodes[0].next
 
     def removeNthFromEnd(self, head: ListNode | None, n: int) -> ListNode | None:
+        """
+        Optimal: shift with invariant
+
+        ex: [1,2,3,4], n=2
+        x -> 1 -> 2 -> 3 -> 4
+        p              c
+            p              c
+                p            c
+
+        p=prev is just before the node to remove
+        c=curr is shifted out of bounds
+
+        This works since prev and curr always have n nodes
+        between them (invariant)
+
+        T: O(n)
+        S: O(1)
+        """
         sentinel = prev = ListNode(next=head)
         curr = head
 
@@ -47,15 +77,7 @@ class Solution:
         return sentinel.next
 
 """
-brute force: convert nodes to list form, and
-rechain at the pivot
-
-edge case: nth node is n, so the list won't have
-a left node to chain
-
-so add a sentinel at the front to make indexing cleaner
-
-ex:
+[brute force] ex:
 Input: head = [1,2,3,4,5], n = 2
 Output: [1,2,3,5]
 
@@ -85,28 +107,10 @@ x.next = 2
 x -> 2 -> 3
 returns x.next
 +
-
-T: O(n)
-S: O(n)
 """
 
 """
-optimal:
-
-ex: [1,2,3,4], n=2
-
-x -> 1 -> 2 -> 3 -> 4
-p              c
-     p              c
-          p            c
-
-p=prev is just before the node to remove
-c=curr is shifted out of bounds
-
-this works since prev and curr always have n nodes
-between them (invariant)
-
-edge case: [1], n=1
+[optimal] edge case: [1], n=1
 
 x -> 1
 p    c
@@ -124,8 +128,4 @@ p.next = p.next.next
 
 p will always have a non-null .next, so
 removing it's next is straightforward
-
-T: O(n)
-S: O(1)
 """
-

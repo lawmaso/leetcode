@@ -33,7 +33,40 @@ class Solution:
 
         return sentinel.next
 
-    def brute_mergeKLists(self, lists: list[ListNode | None]) -> ListNode | None:
+    def mergeKLists(self, lists: list[ListNode | None]) -> ListNode | None:
+        """
+        Brute force: merge 1-by 1
+
+        ex:
+        lists = [[1,4,5],[1,3,4],[2,6]]
+
+        1st: 1,1,3,4,4,5
+        2nd: 1,1,2,3,4,4,5,6
+
+        In general, say each list is length n
+
+        1st: (n) + n
+        2nd: (n + n) + n
+        3rd: (n + n + n) + n
+        ...
+        (k - 1)th: (k-1)(n) + n = n[k-1 + 1] = n*k
+
+        taking the sum:
+            sum [i=1, k-1] of [i*n + n] = sum [i=1, k-1] of [n(i + 1)]
+            = n * sum[i=1, k-1] (i + 1)
+            = n * [sum[i=1, k-1] [i] + (k-1)]
+            = n * [(k-1)(k)/2 + (k-1)]
+            = n(k-1) * [k/2 + 1]
+        ~= n * k^2
+
+        Guassian sum formula: sum[i=1,n] = n(n+1)/2
+
+        To actually implement this solution, define a helper to
+        merge the linked lists
+
+        T: O(n * k^2)
+        S: O(1) [in-place merges]
+        """
         if not lists:
             return None
 
@@ -44,6 +77,29 @@ class Solution:
         return base
     
     def mergeKLists(self, lists: list[ListNode | None]) -> ListNode | None:
+        """
+        Optimal: divide and conquer
+
+        At each iteration, half the number of lists to merge
+
+        Say we have k lists to merge
+        Divide by 2 after first set of merges
+        ...
+        -> log2(k) iterations
+
+        1st iter: (k/2) merges * (2n) cost per merge = nk
+        2nd iter: (k/4) merges * (4n) cost per merge = nk
+        ...
+        log2(k) iter: [k/2^(log2(k))] * [2^(log2(k)) * n]
+            = [k/k] * nk
+            = nk
+
+        So log2(k) iterations each with cost nk
+
+        T: O(nk * log(k))
+        S: O(k/2) -> O(k)  [next_merges only every has <= k/2 items]
+        """
+
         if not lists:
             return None
 
@@ -62,64 +118,3 @@ class Solution:
 
         # all lists will be merged into a singular list at index 0
         return merges[0]
-
-"""
-brute force: merge 1-by 1
-
-ex:
-lists = [[1,4,5],[1,3,4],[2,6]]
-
-1st: 1,1,3,4,4,5
-2nd: 1,1,2,3,4,4,5,6
-
-in general, say each list is length n
-
-1st: (n) + n
-2nd: (n + n) + n
-3rd: (n + n + n) + n
-...
-(k - 1)th: (k-1)(n) + n = n[k-1 + 1] = n*k
-
-taking the sum:
-    sum [i=1, k-1] of [i*n + n] = sum [i=1, k-1] of [n(i + 1)]
-    = n * sum[i=1, k-1] (i + 1)
-    = n * [sum[i=1, k-1] [i] + (k-1)]
-    = n * [(k-1)(k)/2 + (k-1)]
-    = n(k-1) * [k/2 + 1]
-   ~= n * k^2
-
-guassian sum formula: sum[i=1,n] = n(n+1)/2
-
-to actually implement this solution, define a helper to
-merge the linked lists
-
-T: O(n * k^2)
-S: O(1) [in-place merges]
-"""
-
-"""
-optimal solution: divide and conquer
-
-at each iteration, half the number of lists to merge
-
-i and i + 1
-
-say we have k lists to merge
-divide by 2 after first set of merges
-...
-
--> log2(k) iterations
-
-1st iter: (k/2) merges * (2n) cost per merge = nk
-2nd iter: (k/4) merges * (4n) cost per merge = nk
-...
-log2(k) iter: [k/2^(log2(k))] * [2^(log2(k)) * n]
-    = [k/k] * nk
-    = nk
-
-so log2(k) iterations each with cost nk
-
-T: O(nk * log(k))
-S: O(k/2) -> O(k)  [next_merges only every has <= k/2 items]
-"""
-

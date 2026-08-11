@@ -18,7 +18,24 @@ class ListNode:
         self.next = next
 
 class Solution:
-    def brute_addTwoNumbers(self, l1: ListNode | None, l2: ListNode | None) -> ListNode | None:
+    def addTwoNumbers(self, l1: ListNode | None, l2: ListNode | None) -> ListNode | None:
+        """
+        Brute force: actual sum -> list
+
+        l1 = [2,4,3], l2 = [5,6,4]
+        243
+        +564
+        ----
+        807
+
+        t.next = ListNode(val=(n % 10))
+        t = t.next
+        n //= 10
+
+        T: O(n1 + n2)
+        S: O(n1 + n2)
+        """
+
         v1 = v2 = 0
 
         p = 0  # current power
@@ -52,6 +69,12 @@ class Solution:
         return sentinel.next
 
     def addTwoNumbers(self, l1: ListNode | None, l2: ListNode | None) -> ListNode | None:
+        """
+        Optimal: one-pass across both
+
+        T: O(n1 + n2)
+        S: O(n1 + n2)
+        """
         sentinel = temp = ListNode()
         carry = 0
 
@@ -71,29 +94,3 @@ class Solution:
 
         # return newly formed list
         return sentinel.next
-
-"""
-l1 = [2,4,3], l2 = [5,6,4]
-
-brute: actual sum -> list
-
- 243
-+564
-----
- 807
-
-t.next = ListNode(val=(n % 10))
-t = t.next
-n //= 10
-
-T: O(n1 + n2)
-S: O(n1 + n2)
-"""
-
-"""
-optimal: one-pass across both
-
-T: O(n1 + n2)
-S: O(n1 + n2)
-"""
-
