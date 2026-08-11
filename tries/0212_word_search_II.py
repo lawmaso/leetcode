@@ -45,7 +45,7 @@ class Trie:
 class Solution:
     def findWords(self, board: list[list[str]], words: list[str]) -> list[str]:
         """
-        Brute force: dfs for each word from each position
+        Brute force: DFS for each word from each position
 
         T: O(mn * w * 3^L)
         S: O(L)
@@ -100,11 +100,11 @@ class Solution:
         Optimal approach: trie + DFS
 
         T: O(mn * 3^L + W)
-            O(mn * 3^L): grid search + dfs
+            O(mn * 3^L): grid search + DFS
             O(W): building trie
         S: O(W + L)
             O(W): trie nodes
-            O(L): recursion stack
+            O(L): recursion stack from DFS
 
         W: sum(len(words))
         L: max(len(w) for w in words)

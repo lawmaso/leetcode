@@ -31,9 +31,9 @@ wordDictionary.search("b..")  # return True
     | | |
     b d m
     \|/
-    a
-    |
-    d
+     a
+     |
+     d
 """
 
 class TrieNode:
