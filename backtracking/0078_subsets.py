@@ -15,7 +15,7 @@ class Solution:
         subsets given a set of length n
 
         T: O(n * 2^n)  [DFS + adding result]
-        S: O(2^n)      [output]
+        S: O(n * 2^n)  [output; 2^n subsets with at most length n]
         """
         subsets = []
 
