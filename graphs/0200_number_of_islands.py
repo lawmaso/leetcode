@@ -41,6 +41,38 @@ Output: 3
 class Solution:
     def numIslands(self, grid: list[list[str]]) -> int:
         """
+        Approach: DFS
+
+        T: O(mn)
+        S: O(mn) [recursion call stack]
+        """
+        m, n = len(grid), len(grid[0])
+        dirs = [(0,-1), (-1,0), (0,1), (1,0)]
+        LAND, WATER = "1", "0"
+
+        def dfs(r: int, c: int):
+            if not (
+                0 <= r < m and
+                0 <= c < n and
+                grid[r][c] == LAND
+            ):
+                return
+
+            grid[r][c] = WATER
+            for dr, dc in dirs:
+                dfs(r + dr, c + dc)
+
+        islands = 0
+        for r in range(m):
+            for c in range(n):
+                if grid[r][c] == LAND:
+                    islands += 1
+                    dfs(r, c)
+
+        return islands
+
+    def numIslands(self, grid: list[list[str]]) -> int:
+        """
         Approach: BFS
 
         Expand the frontier while land cells are reachable
